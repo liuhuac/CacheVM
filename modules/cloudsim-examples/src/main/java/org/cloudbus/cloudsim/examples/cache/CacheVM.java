@@ -14,10 +14,8 @@ public class CacheVM {
 		boolean outputToFile = true;
 		String inputFolder = "workloads";
 		String outputFolder = "results";
-		String workload = Constants.WORKLOAD; // workload
 		String vmAllocationPolicy = "cacheVM"; // 
 		String vmSelectionPolicy = "cacheVM";
-		String parameter = Constants.STATIC_THRESHOLD;
 
 		new RandomRunner(
 				enableOutput,
