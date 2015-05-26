@@ -1,7 +1,5 @@
 package org.cloudbus.cloudsim.examples.cache;
 
-import org.cloudbus.cloudsim.examples.cache.Constants;
-import org.cloudbus.cloudsim.examples.power.random.RandomRunner;
 
 public class CacheVM {
 
@@ -14,10 +12,12 @@ public class CacheVM {
 		boolean outputToFile = true;
 		String inputFolder = "workloads";
 		String outputFolder = "results";
+		String workload = "random"; // Random workload
 		String vmAllocationPolicy = "cacheVM"; // 
 		String vmSelectionPolicy = "cacheVM";
+		String parameter = "";
 
-		new RandomRunner(
+		new CacheRunner(
 				enableOutput,
 				outputToFile,
 				inputFolder,

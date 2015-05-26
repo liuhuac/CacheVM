@@ -16,7 +16,14 @@ import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G5Xe
  * @author Anton Beloglazov
  * @since Jan 6, 2012
  */
-public class Constants {
+public class ExpConstants {
+	
+	public final static int NUMBER_OF_VMS = 50;
+
+	public final static int NUMBER_OF_HOSTS = 50;
+
+	public final static long CLOUDLET_UTILIZATION_SEED = 1;
+	
 
 	public final static boolean ENABLE_OUTPUT = true;
 	public final static boolean OUTPUT_CSV    = false;
