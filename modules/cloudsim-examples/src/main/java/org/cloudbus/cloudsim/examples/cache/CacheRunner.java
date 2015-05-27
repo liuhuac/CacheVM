@@ -6,8 +6,7 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.examples.power.RunnerAbstract;
-import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimple;
-import org.cloudbus.cloudsim.power.PowerVmSelectionPolicy;
+
 
 public class CacheRunner extends RunnerAbstract {
 	
@@ -67,7 +66,7 @@ public class CacheRunner extends RunnerAbstract {
 			String vmSelectionPolicyName,
 			String parameterName) {
 		VmAllocationPolicy vmAllocationPolicy = null;
-		PowerVmSelectionPolicy vmSelectionPolicy = null;
+		CacheVmSelectionPolicy vmSelectionPolicy = null;
 		if (!vmSelectionPolicyName.isEmpty()) {
 			vmSelectionPolicy = getVmSelectionPolicy(vmSelectionPolicyName);
 		}
@@ -81,7 +80,7 @@ public class CacheRunner extends RunnerAbstract {
 					vmSelectionPolicy,
 					parameter);
 		} else if (vmAllocationPolicyName.equals("dvfs")) {
-			vmAllocationPolicy = new PowerVmAllocationPolicySimple(hostList);
+			;
 		} else {
 			System.out.println("Unknown VM allocation policy: " + vmAllocationPolicyName);
 			System.exit(0);
@@ -95,8 +94,8 @@ public class CacheRunner extends RunnerAbstract {
 	 * @param vmSelectionPolicyName the vm selection policy name
 	 * @return the vm selection policy
 	 */
-	protected PowerVmSelectionPolicy getVmSelectionPolicy(String vmSelectionPolicyName) {
-		PowerVmSelectionPolicy vmSelectionPolicy = null;
+	protected CacheVmSelectionPolicy getVmSelectionPolicy(String vmSelectionPolicyName) {
+		CacheVmSelectionPolicy vmSelectionPolicy = null;
 		if (vmSelectionPolicyName.equals("cacheVM")) {
 			vmSelectionPolicy = new CacheVmSelectionPolicy();
 		} else {

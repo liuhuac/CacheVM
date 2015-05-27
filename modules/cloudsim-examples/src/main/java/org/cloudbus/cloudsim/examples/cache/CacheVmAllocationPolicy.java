@@ -7,12 +7,12 @@ import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationStaticThreshold;
-import org.cloudbus.cloudsim.power.PowerVmSelectionPolicy;
+
 
 public class CacheVmAllocationPolicy extends PowerVmAllocationPolicyMigrationStaticThreshold{
 
 	public CacheVmAllocationPolicy(List<? extends Host> hostList,
-			PowerVmSelectionPolicy vmSelectionPolicy,
+			CacheVmSelectionPolicy vmSelectionPolicy,
 			double utilizationThreshold) {
 		super(hostList, vmSelectionPolicy, utilizationThreshold);
 		// TODO Auto-generated constructor stub
