@@ -17,7 +17,7 @@ public class HeuristicAlgorithm {
 		String vmSelectionPolicy = "cacheVM";
 		String parameter = "";
 
-		new CacheRunner(
+		new ExpRunner(
 				enableOutput,
 				outputToFile,
 				inputFolder,

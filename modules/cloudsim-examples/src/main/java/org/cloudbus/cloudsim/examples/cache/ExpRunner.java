@@ -1,16 +1,19 @@
 package org.cloudbus.cloudsim.examples.cache;
 
 import java.util.Calendar;
+import java.util.List;
 
+import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.examples.power.RunnerAbstract;
+import org.cloudbus.cloudsim.power.PowerDatacenter;
 
 
-public class CacheRunner extends RunnerAbstract {
+public class ExpRunner extends RunnerAbstract {
 	
-	public CacheRunner(
+	public ExpRunner(
 			boolean enableOutput,
 			boolean outputToFile,
 			String inputFolder,
@@ -40,12 +43,12 @@ public class CacheRunner extends RunnerAbstract {
 		try {
 			CloudSim.init(1, Calendar.getInstance(), false);
 
-			broker = CacheHelper.createBroker();
+			broker = ExpHelper.createBroker();
 			int brokerId = broker.getId();
 
-			cloudletList = CacheHelper.createCloudletList(brokerId, ExpConstants.NUMBER_OF_VMS);
-			vmList = CacheHelper.createVmList(brokerId, cloudletList.size());
-			hostList = CacheHelper.createHostList(ExpConstants.NUMBER_OF_HOSTS);
+			cloudletList = ExpHelper.createCloudletList(brokerId, ExpConstants.NUMBER_OF_VMS);
+			vmList = ExpHelper.createVmList(brokerId, cloudletList.size());
+			hostList = ExpHelper.createHostList(ExpConstants.NUMBER_OF_HOSTS);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.printLine("The simulation has been terminated due to an unexpected error");
@@ -103,6 +106,54 @@ public class CacheRunner extends RunnerAbstract {
 			System.exit(0);
 		}
 		return vmSelectionPolicy;
+	}
+	
+	
+	/**
+	 * Starts the simulation.
+	 * 
+	 * @param experimentName the experiment name
+	 * @param outputFolder the output folder
+	 * @param vmAllocationPolicy the vm allocation policy
+	 */
+	protected void start(String experimentName, String outputFolder, VmAllocationPolicy vmAllocationPolicy) {
+		System.out.println("Starting " + experimentName);
+
+		try {
+			PowerDatacenter datacenter = (PowerDatacenter) ExpHelper.createDatacenter(
+					"Datacenter",
+					PowerDatacenter.class,
+					hostList,
+					vmAllocationPolicy);
+
+			datacenter.setDisableMigrations(false);
+
+			broker.submitVmList(vmList);
+			broker.submitCloudletList(cloudletList);
+
+			CloudSim.terminateSimulation(ExpConstants.SIMULATION_LIMIT);
+			double lastClock = CloudSim.startSimulation();
+
+			List<Cloudlet> newList = broker.getCloudletReceivedList();
+			Log.printLine("Received " + newList.size() + " cloudlets");
+
+			CloudSim.stopSimulation();
+
+			ExpHelper.printResults(
+					datacenter,
+					vmList,
+					lastClock,
+					experimentName,
+					ExpConstants.OUTPUT_CSV,
+					outputFolder);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.printLine("The simulation has been terminated due to an unexpected error");
+			System.exit(0);
+		}
+
+		Log.printLine("Finished " + experimentName);
 	}
 
 }

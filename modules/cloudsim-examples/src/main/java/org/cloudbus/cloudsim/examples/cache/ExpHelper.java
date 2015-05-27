@@ -53,7 +53,7 @@ import org.cloudbus.cloudsim.util.MathUtil;
  * 
  * @author Anton Beloglazov
  */
-public class CacheHelper {
+public class ExpHelper {
 
 	/**
 	 * Creates the vm list.
