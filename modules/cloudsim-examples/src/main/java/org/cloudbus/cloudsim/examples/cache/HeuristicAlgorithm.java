@@ -1,7 +1,7 @@
 package org.cloudbus.cloudsim.examples.cache;
 
 
-public class CacheVmHeuristic {
+public class HeuristicAlgorithm {
 
 	/**
 	 * @param args
