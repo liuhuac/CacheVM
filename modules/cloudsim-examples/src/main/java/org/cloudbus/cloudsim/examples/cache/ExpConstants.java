@@ -1,8 +1,9 @@
 package org.cloudbus.cloudsim.examples.cache;
 
 import org.cloudbus.cloudsim.power.models.PowerModel;
-import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G4Xeon3040;
-import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G5Xeon3075;
+import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantDL380G5Xeon5400;
+//import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G4Xeon3040;
+//import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G5Xeon3075;
 
 /**
  * If you are using any algorithms, policies or workload included in the power package, please cite
@@ -57,16 +58,31 @@ public class ExpConstants {
 	 *   HP ProLiant ML110 G5 (1 x [Xeon 3075 2660 MHz, 2 cores], 4GB)
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
-	public final static int HOST_TYPES	 = 2;
+	/*public final static int HOST_TYPES	 = 2;
 	public final static int[] HOST_MIPS	 = { 1860, 2660 };
 	public final static int[] HOST_PES	 = { 2, 2 };
 	public final static int[] HOST_RAM	 = { 4096, 4096 };
 	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
+	 */
+	
+	
+	/*
+	 * Host types:
+	 *   HP ProLiant DL380 G5 (1 x [Xeon 3075 3160 MHz, 4 cores], 4GB)
+	 *   We increase the memory size to enable over-subscription (x4)
+	 */
+	public final static int HOST_TYPES	 = 1;
+	public final static int[] HOST_MIPS	 = { 3160 };
+	public final static int[] HOST_PES	 = { 4 };
+	public final static int[] HOST_RAM	 = { 4096 };
+	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
+	public final static int HOST_STORAGE = 1000000; // 1 GB
 
 	public final static PowerModel[] HOST_POWER = {
-		new PowerModelSpecPowerHpProLiantMl110G4Xeon3040(),
-		new PowerModelSpecPowerHpProLiantMl110G5Xeon3075()
+		new PowerModelSpecPowerHpProLiantDL380G5Xeon5400()
+		//new PowerModelSpecPowerHpProLiantMl110G4Xeon3040(),
+		//new PowerModelSpecPowerHpProLiantMl110G5Xeon3075()
 	};
 
 }
