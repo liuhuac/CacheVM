@@ -7,8 +7,19 @@ import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.examples.cache.algorithms.ClassificationVmAllocationPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.ClassificationVmSelectionPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.HeuristicVmAllocationPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.HeuristicVmSelectionPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.MissrateVmAllocationPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.MissrateVmSelectionPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.OptimalVmAllocationPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.OptimalVmSelectionPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.RandomVmAllocationPolicy;
+import org.cloudbus.cloudsim.examples.cache.algorithms.RandomVmSelectionPolicy;
 import org.cloudbus.cloudsim.examples.power.RunnerAbstract;
 import org.cloudbus.cloudsim.power.PowerDatacenter;
+import org.cloudbus.cloudsim.power.PowerVmSelectionPolicy;
 
 
 public class ExpRunner extends RunnerAbstract {
@@ -43,8 +54,14 @@ public class ExpRunner extends RunnerAbstract {
 		try {
 			CloudSim.init(1, Calendar.getInstance(), false);
 			
-			CacheMatrix cm = new CacheMatrix();
-			cm.init();
+			/*
+			 * Either initialize the CacheMatrix here
+			 * or initialize it in Simulation.java to
+			 * ensure using the same CacheMatrix for
+			 * different allocation algorithms.
+			 */
+			/*CacheMatrix cm = new CacheMatrix();
+			cm.init();*/
 
 			broker = ExpHelper.createBroker();
 			int brokerId = broker.getId();
@@ -72,7 +89,7 @@ public class ExpRunner extends RunnerAbstract {
 			String vmSelectionPolicyName,
 			String parameterName) {
 		VmAllocationPolicy vmAllocationPolicy = null;
-		CacheVmSelectionPolicy vmSelectionPolicy = null;
+		PowerVmSelectionPolicy vmSelectionPolicy = null;
 		if (!vmSelectionPolicyName.isEmpty()) {
 			vmSelectionPolicy = getVmSelectionPolicy(vmSelectionPolicyName);
 		}
@@ -80,13 +97,31 @@ public class ExpRunner extends RunnerAbstract {
 		if (!parameterName.isEmpty()) {
 			parameter = Double.valueOf(parameterName);
 		}
-		if (vmAllocationPolicyName.equals("cacheVM")) {
-			vmAllocationPolicy = new CacheVmAllocationPolicy(
+		if (vmAllocationPolicyName.equals("heuristic")) {
+			vmAllocationPolicy = new HeuristicVmAllocationPolicy(
 					hostList,
-					vmSelectionPolicy,
+					(HeuristicVmSelectionPolicy) vmSelectionPolicy,
 					parameter);
-		} else if (vmAllocationPolicyName.equals("dvfs")) {
-			;
+		} else if (vmAllocationPolicyName.equals("random")) {
+			vmAllocationPolicy = new RandomVmAllocationPolicy(
+					hostList,
+					(RandomVmSelectionPolicy) vmSelectionPolicy,
+					parameter);
+		} else if (vmAllocationPolicyName.equals("optimal")) {
+			vmAllocationPolicy = new OptimalVmAllocationPolicy(
+					hostList,
+					(OptimalVmSelectionPolicy) vmSelectionPolicy,
+					parameter);
+		} else if (vmAllocationPolicyName.equals("classification")) {
+			vmAllocationPolicy = new ClassificationVmAllocationPolicy(
+					hostList,
+					(ClassificationVmSelectionPolicy) vmSelectionPolicy,
+					parameter);
+		} else if (vmAllocationPolicyName.equals("missrate")) {
+			vmAllocationPolicy = new MissrateVmAllocationPolicy(
+					hostList,
+					(MissrateVmSelectionPolicy) vmSelectionPolicy,
+					parameter);
 		} else {
 			System.out.println("Unknown VM allocation policy: " + vmAllocationPolicyName);
 			System.exit(0);
@@ -100,10 +135,18 @@ public class ExpRunner extends RunnerAbstract {
 	 * @param vmSelectionPolicyName the vm selection policy name
 	 * @return the vm selection policy
 	 */
-	protected CacheVmSelectionPolicy getVmSelectionPolicy(String vmSelectionPolicyName) {
-		CacheVmSelectionPolicy vmSelectionPolicy = null;
-		if (vmSelectionPolicyName.equals("cacheVM")) {
-			vmSelectionPolicy = new CacheVmSelectionPolicy();
+	protected PowerVmSelectionPolicy getVmSelectionPolicy(String vmSelectionPolicyName) {
+		PowerVmSelectionPolicy vmSelectionPolicy = null;
+		if (vmSelectionPolicyName.equals("heuristic")) {
+			vmSelectionPolicy = new HeuristicVmSelectionPolicy();
+		} else if (vmSelectionPolicyName.equals("random")) {
+			vmSelectionPolicy = new RandomVmSelectionPolicy();
+		} else if (vmSelectionPolicyName.equals("optimal")) {
+			vmSelectionPolicy = new OptimalVmSelectionPolicy();
+		} else if (vmSelectionPolicyName.equals("classification")) {
+			vmSelectionPolicy = new ClassificationVmSelectionPolicy();
+		} else if (vmSelectionPolicyName.equals("missrate")) {
+			vmSelectionPolicy = new MissrateVmSelectionPolicy();
 		} else {
 			System.out.println("Unknown VM selection policy: " + vmSelectionPolicyName);
 			System.exit(0);

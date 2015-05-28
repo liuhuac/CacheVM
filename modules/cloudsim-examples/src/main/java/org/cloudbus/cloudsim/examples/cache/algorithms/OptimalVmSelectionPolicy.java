@@ -1,10 +1,10 @@
-package org.cloudbus.cloudsim.examples.cache;
+package org.cloudbus.cloudsim.examples.cache.algorithms;
 
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicy;
 
-public class CacheVmSelectionPolicy extends PowerVmSelectionPolicy{
+public class OptimalVmSelectionPolicy extends PowerVmSelectionPolicy{
 
 	@Override
 	public Vm getVmToMigrate(PowerHost host) {

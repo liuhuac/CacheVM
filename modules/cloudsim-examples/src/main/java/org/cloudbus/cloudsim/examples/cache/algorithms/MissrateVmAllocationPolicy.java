@@ -1,4 +1,4 @@
-package org.cloudbus.cloudsim.examples.cache;
+package org.cloudbus.cloudsim.examples.cache.algorithms;
 
 import java.util.HashSet;
 import java.util.List;
@@ -8,16 +8,17 @@ import java.util.Set;
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.examples.cache.CacheMatrix;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationStaticThreshold;
 import org.cloudbus.cloudsim.util.ExecutionTimeMeasurer;
 
 
-public class CacheVmAllocationPolicy extends PowerVmAllocationPolicyMigrationStaticThreshold{
+public class MissrateVmAllocationPolicy extends PowerVmAllocationPolicyMigrationStaticThreshold{
 
-	public CacheVmAllocationPolicy(List<? extends Host> hostList,
-			CacheVmSelectionPolicy vmSelectionPolicy,
+	public MissrateVmAllocationPolicy(List<? extends Host> hostList,
+			MissrateVmSelectionPolicy vmSelectionPolicy,
 			double utilizationThreshold) {
 		super(hostList, vmSelectionPolicy, utilizationThreshold);
 		// TODO Auto-generated constructor stub
@@ -32,7 +33,7 @@ public class CacheVmAllocationPolicy extends PowerVmAllocationPolicyMigrationSta
 	 * @return the power host
 	 */
 	public PowerHost findHostForVm(Vm vm, Set<? extends Host> excludedHosts) {
-		double minPower = Double.MAX_VALUE;
+
 		PowerHost allocatedHost = null;
 
 		for (PowerHost host : this.<PowerHost> getHostList()) {

@@ -1,7 +1,9 @@
-package org.cloudbus.cloudsim.examples.cache;
+package org.cloudbus.cloudsim.examples.cache.algorithms;
+
+import org.cloudbus.cloudsim.examples.cache.ExpRunner;
 
 
-public class HeuristicAlgorithm {
+public class RandomAlgorithm {
 
 	/**
 	 * @param args
@@ -13,9 +15,9 @@ public class HeuristicAlgorithm {
 		String inputFolder = "workloads";
 		String outputFolder = "results";
 		String workload = "random"; // Random workload
-		String vmAllocationPolicy = "cacheVM"; // 
-		String vmSelectionPolicy = "cacheVM";
-		String parameter = "";
+		String vmAllocationPolicy = "random"; // 
+		String vmSelectionPolicy = "random";
+		String parameter = "1";
 
 		new ExpRunner(
 				enableOutput,
