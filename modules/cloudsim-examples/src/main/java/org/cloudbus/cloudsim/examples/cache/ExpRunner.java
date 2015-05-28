@@ -42,6 +42,9 @@ public class ExpRunner extends RunnerAbstract {
 	protected void init(String inputFolder) {
 		try {
 			CloudSim.init(1, Calendar.getInstance(), false);
+			
+			CacheMatrix cm = new CacheMatrix();
+			cm.init();
 
 			broker = ExpHelper.createBroker();
 			int brokerId = broker.getId();
