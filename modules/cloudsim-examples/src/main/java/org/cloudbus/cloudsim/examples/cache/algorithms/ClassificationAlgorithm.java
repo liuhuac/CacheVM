@@ -15,8 +15,8 @@ public class ClassificationAlgorithm {
 		String inputFolder = "workloads";
 		String outputFolder = "results";
 		String workload = "random"; // Random workload
-		String vmAllocationPolicy = "heuristic"; // 
-		String vmSelectionPolicy = "heuristic";
+		String vmAllocationPolicy = "classification"; // 
+		String vmSelectionPolicy = "classification";
 		String parameter = "1";
 
 		new ExpRunner(

@@ -24,11 +24,11 @@ public class Simulation {
 		CacheMatrix cm = new CacheMatrix();
 		cm.init();
 		
-		RandomAlgorithm.main(args);
+		//RandomAlgorithm.main(args);
 		HeuristicAlgorithm.main(args);
-		OptimalAlgorithm.main(args);
-		ClassificationAlgorithm.main(args);
-		MissrateAlgorithm.main(args);
+		//OptimalAlgorithm.main(args);
+		//ClassificationAlgorithm.main(args);
+		//MissrateAlgorithm.main(args);
 
 	}
 

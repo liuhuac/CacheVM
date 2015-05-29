@@ -112,7 +112,10 @@ public class MissrateVmAllocationPolicy extends PowerVmAllocationPolicyMigration
 				ExecutionTimeMeasurer.end("optimizeAllocationVmReallocation"));
 		Log.printLine();
 
-		migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
+		/*
+		 * Comment this line to disable turning off underutilized hosts
+		 */
+		//migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
 
 		restoreAllocation();
 

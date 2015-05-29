@@ -8,6 +8,8 @@ public class HeuristicAlgorithm {
 	/**
 	 * @param args
 	 */
+	public static double [] hostPainList;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		boolean enableOutput = true;
@@ -15,8 +17,8 @@ public class HeuristicAlgorithm {
 		String inputFolder = "workloads";
 		String outputFolder = "results";
 		String workload = "random"; // Random workload
-		String vmAllocationPolicy = "classification"; // 
-		String vmSelectionPolicy = "classification";
+		String vmAllocationPolicy = "heuristic"; // 
+		String vmSelectionPolicy = "heuristic";
 		String parameter = "1";
 
 		new ExpRunner(

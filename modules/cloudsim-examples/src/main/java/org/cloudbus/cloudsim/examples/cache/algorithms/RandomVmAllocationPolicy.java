@@ -1,8 +1,10 @@
 package org.cloudbus.cloudsim.examples.cache.algorithms;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.cloudbus.cloudsim.Host;
@@ -34,7 +36,7 @@ public class RandomVmAllocationPolicy extends PowerVmAllocationPolicyMigrationSt
 	 */
 	public PowerHost findHostForVm(Vm vm, Set<? extends Host> excludedHosts) {
 
-		PowerHost allocatedHost = null;
+		List<PowerHost> candidateHostList = new ArrayList<PowerHost>();
 
 		for (PowerHost host : this.<PowerHost> getHostList()) {
 			if (excludedHosts.contains(host)) {
@@ -49,13 +51,17 @@ public class RandomVmAllocationPolicy extends PowerVmAllocationPolicyMigrationSt
 					if (host.getUtilizationOfCpuMips() != 0 && isHostOverUtilizedAfterAllocation(host, vm)) {
 						continue;
 					}
-
-					allocatedHost = host;
-
+					candidateHostList.add(host);
 				}
 			}
-		}
-		return allocatedHost;
+		}	
+		if(candidateHostList.isEmpty()){
+			return null;
+		} else {
+			Random rd = new Random();
+			int rdHostId = rd.nextInt(candidateHostList.size());
+			return candidateHostList.get(rdHostId);
+		}	
 	}
 	
 	/**
@@ -112,7 +118,10 @@ public class RandomVmAllocationPolicy extends PowerVmAllocationPolicyMigrationSt
 				ExecutionTimeMeasurer.end("optimizeAllocationVmReallocation"));
 		Log.printLine();
 
-		migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
+		/*
+		 * Comment this line to disable turning off underutilized hosts
+		 */
+		//migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
 
 		restoreAllocation();
 
