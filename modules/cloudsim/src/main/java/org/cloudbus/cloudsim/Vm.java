@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.cloudbus.cloudsim.examples.cache.CacheMatrix;
+
 /**
  * Vm represents a VM: it runs inside a Host, sharing hostList with other VMs. It processes
  * cloudlets. This processing happens according to a policy, defined by the CloudletScheduler. Each
@@ -604,6 +606,16 @@ public class Vm {
 			}
 		}
 		getStateHistory().add(newState);
+	}
+
+	public double getPainWithVm(int j) {
+		// TODO Auto-generated method stub
+		int i = this.getId();
+		if(i == j) {
+			return 0;
+		} else {
+			return CacheMatrix.get_pain(i, j);
+		}
 	}
 
 }

@@ -51,6 +51,9 @@ public class HeuristicVmAllocationPolicy extends PowerVmAllocationPolicyMigratio
 						continue;
 					}
 
+					/*
+					 * select host based on 
+					 */
 					allocatedHost = host;
 
 				}
@@ -138,6 +141,29 @@ public class HeuristicVmAllocationPolicy extends PowerVmAllocationPolicyMigratio
 		}
 		if (host.vmCreate(vm)) { // if vm has been succesfully created in the host
 			getVmTable().put(vm.getUid(), host);
+			
+			/*
+			 * update host cache pain information
+			 * in CacheMatrix.HOST_PAIN_LIST
+			 */
+			if(host.getVmList().size() > 1){// there is other vms besides the new vm
+				double sum_pain = 0.0;
+				for(Vm v : host.getVmList()){
+					int e_id = v.getId(); // existing vm id
+					int v_id = vm.getId(); // new vm id
+					if( e_id == v_id){
+						continue;
+					} else {
+						sum_pain += vm.getPainWithVm(e_id);
+					}
+				}
+				CacheMatrix.HOST_PAIN_LIST.set(host.getId(), sum_pain);
+			}
+			/*
+			 * end update host cache pain information
+			 */
+			
+			
 			Log.formatLine(
 					"%.2f: VM #" + vm.getId() + " has been allocated to the host #" + host.getId(),
 					CloudSim.clock());

@@ -20,6 +20,8 @@ public class CacheVm extends PowerVm {
 	 * @param cloudletScheduler the cloudlet scheduler
 	 * @param schedulingInterval the scheduling interval
 	 */
+	private double missrate = 0.0;
+	
 	public CacheVm(
 			final int id,
 			final int userId,
@@ -34,7 +36,22 @@ public class CacheVm extends PowerVm {
 			final double schedulingInterval) {
 		super(id, userId, mips, pesNumber, ram, bw, size, priority, vmm, cloudletScheduler, schedulingInterval);
 		setSchedulingInterval(schedulingInterval);
+		setMissrate();
 	}
 
-
+	public double getMissrate(){
+		return this.missrate;
+	}
+	
+	private void setMissrate(){
+		this.missrate = getH() / getZ();
+	}
+	
+	public int getH(){
+		return CacheMatrix.VM_H_LIST.get(this.getId());
+	}
+	
+	public int getZ(){
+		return CacheMatrix.VM_Z_LIST.get(this.getId());
+	}
 }

@@ -21,6 +21,11 @@ public class CacheMatrix {
 	 */
 	public static List<List<Double>> PAIN_MATRIX = null;
 	
+	public static List<Integer> VM_H_LIST = null;//total hits
+	public static List<Integer> VM_Z_LIST = null;
+	
+	public static List<Double> HOST_PAIN_LIST = null;
+	
 	public void init(){
 		
 		PROFILE_MATRIX = new ArrayList<List<Integer>>();
@@ -30,6 +35,33 @@ public class CacheMatrix {
 		}
 		
 		init_pain_matrix();
+		
+		init_hzm_list();
+		
+		HOST_PAIN_LIST = new ArrayList<Double>();
+		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
+			HOST_PAIN_LIST.add(0.0);
+		}
+		
+	}
+
+	private void init_hzm_list() {
+		// TODO Auto-generated method stub
+		VM_H_LIST = new ArrayList<Integer>();
+		VM_Z_LIST = new ArrayList<Integer>();
+		
+		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
+			int h = 0;
+			int z = 0;
+			int k = 0;
+			for(; k<A-1; k++){
+				h += PROFILE_MATRIX.get(i).get(k).intValue();
+			}
+			z = h + PROFILE_MATRIX.get(i).get(k).intValue();
+			
+			VM_H_LIST.add(h);
+			VM_Z_LIST.add(z);
+		}
 	}
 
 	private void init_pain_matrix() {
