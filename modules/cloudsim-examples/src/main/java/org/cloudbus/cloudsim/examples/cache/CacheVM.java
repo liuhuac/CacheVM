@@ -1,6 +1,7 @@
 package org.cloudbus.cloudsim.examples.cache;
 
 import org.cloudbus.cloudsim.CloudletScheduler;
+import org.cloudbus.cloudsim.examples.cache.CacheMatrix.Animal;
 import org.cloudbus.cloudsim.power.PowerVm;
 
 public class CacheVm extends PowerVm {
@@ -57,5 +58,13 @@ public class CacheVm extends PowerVm {
 	
 	public int getZ(){
 		return CacheMatrix.VM_Z_LIST.get(this.getId());
+	}
+	
+	public Animal getVmType(){
+		return CacheMatrix.VM_TYPE_LIST.get(this.getId());
+	}
+	
+	public boolean isDveil(){
+		return Animal.DEVIL == this.getVmType() ? true : false;
 	}
 }
