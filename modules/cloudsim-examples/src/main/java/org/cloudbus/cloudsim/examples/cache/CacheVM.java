@@ -47,7 +47,7 @@ public class CacheVm extends PowerVm {
 		if(getZ()==0){
 			this.missrate = 0.0;
 		} else {
-			this.missrate = getH() / getZ();
+			this.missrate = ((double)(getZ() - getH())) / ((double)getZ());
 		}		
 	}
 	

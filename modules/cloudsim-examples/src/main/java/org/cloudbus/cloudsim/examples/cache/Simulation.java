@@ -27,8 +27,8 @@ public class Simulation {
 		RandomAlgorithm.main(args);
 		HeuristicAlgorithm.main(args);
 		//OptimalAlgorithm.main(args);
-		//ClassificationAlgorithm.main(args);
-		//MissrateAlgorithm.main(args);
+		ClassificationAlgorithm.main(args);
+		MissrateAlgorithm.main(args);
 
 	}
 

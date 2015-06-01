@@ -8,6 +8,7 @@ import java.util.Set;
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.examples.cache.CacheMatrix;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
@@ -35,6 +36,7 @@ public class MissrateVmAllocationPolicy extends PowerVmAllocationPolicyMigration
 	public PowerHost findHostForVm(Vm vm, Set<? extends Host> excludedHosts) {
 
 		PowerHost allocatedHost = null;
+		double minMissrate = Double.MAX_VALUE;
 
 		for (PowerHost host : this.<PowerHost> getHostList()) {
 			if (excludedHosts.contains(host)) {
@@ -50,7 +52,14 @@ public class MissrateVmAllocationPolicy extends PowerVmAllocationPolicyMigration
 						continue;
 					}
 
-					allocatedHost = host;
+					/*
+					 * select host based on pain
+					 */
+					double missrate = CacheMatrix.get_host_missrate(host.getId());
+					if(missrate < minMissrate){
+						minMissrate = missrate;
+						allocatedHost = host;
+					}
 
 				}
 			}
@@ -122,6 +131,40 @@ public class MissrateVmAllocationPolicy extends PowerVmAllocationPolicyMigration
 		getExecutionTimeHistoryTotal().add(ExecutionTimeMeasurer.end("optimizeAllocationTotal"));
 
 		return migrationMap;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#allocateHostForVm(org.cloudbus.cloudsim.Vm,
+	 * org.cloudbus.cloudsim.Host)
+	 */
+	@Override
+	public boolean allocateHostForVm(Vm vm, Host host) {
+		if (host == null) {
+			Log.formatLine("%.2f: No suitable host found for VM #" + vm.getId() + "\n", CloudSim.clock());
+			return false;
+		}
+		if (host.vmCreate(vm)) { // if vm has been succesfully created in the host
+			getVmTable().put(vm.getUid(), host);
+			
+			/*
+			 * update host missrate information
+			 */
+			CacheMatrix.update_host_missrate_add_vm(vm, host);
+			/*
+			 * end update host cache missrate information
+			 */
+			
+			
+			Log.formatLine(
+					"%.2f: VM #" + vm.getId() + " has been allocated to the host #" + host.getId(),
+					CloudSim.clock());
+			return true;
+		}
+		Log.formatLine(
+				"%.2f: Creation of VM #" + vm.getId() + " on the host #" + host.getId() + " failed\n",
+				CloudSim.clock());
+		return false;
 	}
 
 }

@@ -10,6 +10,15 @@ public class CacheMatrix {
 	
 	public static int A = 100;
 	
+	enum Animal {
+		TURTLE,
+		DEVIL,
+		RABBIT,
+		SHEEP
+	}
+
+	public static List<Animal> VM_TYPE_LIST = null;
+	
 	/*
 	 *  Each row of PROFILE_MATRIX is a stack distance profile
 	 *  n_t (rows) x A (cols)  
@@ -28,6 +37,7 @@ public class CacheMatrix {
 	public static List<Integer> VM_Z_LIST = null;
 	
 	public static List<Double> HOST_PAIN_LIST = null;// host total pain of current vms
+	public static List<Double> HOST_MISSRATE_LIST = null;// host total pain of current vms
 	
 	public void init(){
 		
@@ -42,8 +52,13 @@ public class CacheMatrix {
 		init_hzm_list();
 		
 		HOST_PAIN_LIST = new ArrayList<Double>();
-		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
+		for(int i=0; i<ExpConstants.NUMBER_OF_HOSTS; i++){
 			HOST_PAIN_LIST.add(0.0);
+		}
+		
+		HOST_MISSRATE_LIST = new ArrayList<Double>();
+		for(int i=0; i<ExpConstants.NUMBER_OF_HOSTS; i++){
+			HOST_MISSRATE_LIST.add(0.0);
 		}
 		
 	}
@@ -64,6 +79,46 @@ public class CacheMatrix {
 			
 			VM_H_LIST.add(h);
 			VM_Z_LIST.add(z);
+		}
+	}
+	
+	public void init_animal_classification() {
+		// TODO Auto-generated method stub
+		VM_TYPE_LIST = new ArrayList<Animal>();
+
+		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
+			double h = (double)VM_H_LIST.get(i); // total hits
+			double z = (double)VM_Z_LIST.get(i); // total accesses
+			double m = z - h; // total misses
+			double mr = m / z; // miss rate
+			
+			// calculate WaysNeeded k%
+			int k95;
+			if(0 == z){// NOT zero access
+				k95 = 0;
+			} else {
+				double sum = 0;
+				for(k95=0; k95<A; k95++){
+					sum += PROFILE_MATRIX.get(i).get(k95).doubleValue();
+					if(sum/z >= 0.95){
+						
+					}
+				}
+			}
+			 
+			/*
+			 * Animal Classification Algorithm
+			 */
+			if(h < 1000){
+				VM_TYPE_LIST.add(Animal.TURTLE);
+			} else if(mr > 0.1 || m > 4000){
+				VM_TYPE_LIST.add(Animal.DEVIL);
+			} else if(k95 > A/2){
+				VM_TYPE_LIST.add(Animal.RABBIT);
+			} else {
+				VM_TYPE_LIST.add(Animal.SHEEP);
+			}
+
 		}
 	}
 
@@ -166,6 +221,21 @@ public class CacheMatrix {
 		return sumPain;
 	}
 	
+	/*
+	 * get the total missrate of host
+	 */
+	public static double get_host_missrate(int hostId){
+		return HOST_MISSRATE_LIST.get(hostId).doubleValue();
+	}
+	
+	
+	/*
+	 * get the vm type 
+	 */
+	public static Animal get_vm_type(int i){
+		return VM_TYPE_LIST.get(i);
+	}
+	
 	
 	/*
 	 * update host cache pain information
@@ -207,6 +277,31 @@ public class CacheMatrix {
 			int host_id = host.getId();
 			double current = CacheMatrix.HOST_PAIN_LIST.get(host_id);
 			CacheMatrix.HOST_PAIN_LIST.set(host_id, current - sum_pain);
+		}
+	}
+	
+	/*
+	 * update host cache missrate information
+	 */
+	public static void update_host_missrate_add_vm(Vm vm, Host host){
+			double vmMissrate = ((CacheVm)vm).getMissrate();
+			double current = CacheMatrix.HOST_MISSRATE_LIST.get(host.getId());
+			CacheMatrix.HOST_MISSRATE_LIST.set(host.getId(), current+vmMissrate);
+	}
+	
+	
+	/*
+	 * update host cache missrate information
+	 */
+	public static void update_host_missrate_remove_vm(Vm vm, Host host){
+		List<Vm> vmlist = host.getVmList();
+		int host_id = host.getId();
+		if(vmlist.size() == 0){// host is empty
+			CacheMatrix.HOST_MISSRATE_LIST.set(host_id, 0.0);;
+		} else {
+			double vmMissrate = ((CacheVm)vm).getMissrate();
+			double current = CacheMatrix.HOST_MISSRATE_LIST.get(host_id);
+			CacheMatrix.HOST_MISSRATE_LIST.set(host.getId(), current-vmMissrate);
 		}
 	}
 }

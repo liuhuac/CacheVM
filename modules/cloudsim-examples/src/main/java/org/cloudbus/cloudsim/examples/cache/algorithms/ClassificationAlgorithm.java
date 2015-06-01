@@ -1,5 +1,6 @@
 package org.cloudbus.cloudsim.examples.cache.algorithms;
 
+import org.cloudbus.cloudsim.examples.cache.CacheMatrix;
 import org.cloudbus.cloudsim.examples.cache.ExpRunner;
 
 
@@ -19,6 +20,9 @@ public class ClassificationAlgorithm {
 		String vmSelectionPolicy = "classification";
 		String parameter = "1";
 
+		CacheMatrix cacheMatrix = new CacheMatrix();
+		cacheMatrix.init_animal_classification();
+		
 		new ExpRunner(
 				enableOutput,
 				outputToFile,
