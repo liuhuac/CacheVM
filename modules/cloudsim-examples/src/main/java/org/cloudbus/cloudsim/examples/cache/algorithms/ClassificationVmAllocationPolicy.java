@@ -49,6 +49,12 @@ public class ClassificationVmAllocationPolicy extends PowerVmAllocationPolicyMig
 					if (host.getUtilizationOfCpuMips() != 0 && isHostOverUtilizedAfterAllocation(host, vm)) {
 						continue;
 					}
+					
+					/*
+					 * Cache Partitioning by Caching Devils (CPCD)
+					 * select host based on Animal Classification
+					 * namely, whether there is Dveil in the host
+					 */
 
 					allocatedHost = host;
 
