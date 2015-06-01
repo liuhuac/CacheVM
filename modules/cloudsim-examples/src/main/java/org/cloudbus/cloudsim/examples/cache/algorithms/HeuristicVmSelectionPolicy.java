@@ -51,21 +51,7 @@ public class HeuristicVmSelectionPolicy extends PowerVmSelectionPolicy{
 		 * update host cache pain information
 		 * in CacheMatrix.HOST_PAIN_LIST
 		 */
-		if(host.getVmList().size() > 1){// there is other vms besides the new vm
-			double sum_pain = 0.0;
-			for(Vm v : host.getVmList()){
-				int e_id = v.getId(); // existing vm id
-				int v_id = return_vm.getId(); // new vm id
-				if( e_id == v_id){
-					continue;
-				} else {
-					sum_pain += return_vm.getPainWithVm(e_id);
-				}
-			}
-			int host_id = host.getId();
-			double current = CacheMatrix.HOST_PAIN_LIST.get(host_id);
-			CacheMatrix.HOST_PAIN_LIST.set(host_id, current - sum_pain);
-		}
+		CacheMatrix.update_host_pain_remove_vm(return_vm, host);
 		/*
 		 * end update host cache pain information
 		 */

@@ -36,6 +36,7 @@ public class HeuristicVmAllocationPolicy extends PowerVmAllocationPolicyMigratio
 	public PowerHost findHostForVm(Vm vm, Set<? extends Host> excludedHosts) {
 
 		PowerHost allocatedHost = null;
+		double minPain = Double.MAX_VALUE;
 
 		for (PowerHost host : this.<PowerHost> getHostList()) {
 			if (excludedHosts.contains(host)) {
@@ -52,9 +53,13 @@ public class HeuristicVmAllocationPolicy extends PowerVmAllocationPolicyMigratio
 					}
 
 					/*
-					 * select host based on 
+					 * select host based on pain
 					 */
-					allocatedHost = host;
+					double pain = CacheMatrix.get_pain_with_host(vm.getId(),host);
+					if(pain < minPain){
+						minPain = pain;
+						allocatedHost = host;
+					}
 
 				}
 			}
@@ -146,19 +151,7 @@ public class HeuristicVmAllocationPolicy extends PowerVmAllocationPolicyMigratio
 			 * update host cache pain information
 			 * in CacheMatrix.HOST_PAIN_LIST
 			 */
-			if(host.getVmList().size() > 1){// there is other vms besides the new vm
-				double sum_pain = 0.0;
-				for(Vm v : host.getVmList()){
-					int e_id = v.getId(); // existing vm id
-					int v_id = vm.getId(); // new vm id
-					if( e_id == v_id){
-						continue;
-					} else {
-						sum_pain += vm.getPainWithVm(e_id);
-					}
-				}
-				CacheMatrix.HOST_PAIN_LIST.set(host.getId(), sum_pain);
-			}
+			CacheMatrix.update_host_pain_add_vm(vm, host);
 			/*
 			 * end update host cache pain information
 			 */

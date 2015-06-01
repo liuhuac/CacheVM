@@ -3,6 +3,9 @@ package org.cloudbus.cloudsim.examples.cache;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cloudbus.cloudsim.Host;
+import org.cloudbus.cloudsim.Vm;
+
 public class CacheMatrix {
 	
 	public static int A = 100;
@@ -24,7 +27,7 @@ public class CacheMatrix {
 	public static List<Integer> VM_H_LIST = null;//total hits
 	public static List<Integer> VM_Z_LIST = null;
 	
-	public static List<Double> HOST_PAIN_LIST = null;
+	public static List<Double> HOST_PAIN_LIST = null;// host total pain of current vms
 	
 	public void init(){
 		
@@ -139,8 +142,71 @@ public class CacheMatrix {
 		// TODO Save the random generated profile matrix to file
 	}
 	
+	/*
+	 * get the pain of co-locating vm i and vm j 
+	 */
 	public static double get_pain(int i, int j){
 		return PAIN_MATRIX.get(i).get(j).doubleValue();
 	}
-
+	
+	/*
+	 * get the augment pain amount resulted 
+	 * from placing vm i to host
+	 */
+	public static double get_pain_with_host(int i, Host host){
+		double sumPain = 0.0;
+		List<Vm> vmlist = host.getVmList();
+		for(Vm v : vmlist){
+			int j = v.getId();
+			if(i == j){
+				return 0.0;//vm alredy in the host
+			}
+			sumPain += get_pain(i, j);
+		}
+		return sumPain;
+	}
+	
+	
+	/*
+	 * update host cache pain information
+	 */
+	public static void update_host_pain_add_vm(Vm vm, Host host){
+		List<Vm> vmlist = host.getVmList();
+		if(vmlist.size() > 1){// there is other vms besides the new vm
+			double sum_pain = 0.0;
+			for(Vm v : vmlist){
+				int e_id = v.getId(); // existing vm id
+				int v_id = vm.getId(); // new vm id
+				if( e_id == v_id){
+					continue;
+				} else {
+					sum_pain += vm.getPainWithVm(e_id);
+				}
+			}
+			CacheMatrix.HOST_PAIN_LIST.set(host.getId(), sum_pain);
+		}
+	}
+	
+	
+	/*
+	 * update host cache pain information
+	 */
+	public static void update_host_pain_remove_vm(Vm vm, Host host){
+		List<Vm> vmlist = host.getVmList();
+		if(vmlist.size() > 1){// there is other vms besides the new vm
+			double sum_pain = 0.0;
+			for(Vm v : vmlist){
+				int e_id = v.getId(); // existing vm id
+				int v_id = vm.getId(); // new vm id
+				if( e_id == v_id){
+					continue;
+				} else {
+					sum_pain += vm.getPainWithVm(e_id);
+				}
+			}
+			int host_id = host.getId();
+			double current = CacheMatrix.HOST_PAIN_LIST.get(host_id);
+			CacheMatrix.HOST_PAIN_LIST.set(host_id, current - sum_pain);
+		}
+	}
 }
