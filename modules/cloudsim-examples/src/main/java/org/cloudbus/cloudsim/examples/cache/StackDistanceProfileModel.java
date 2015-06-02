@@ -15,9 +15,9 @@ public class StackDistanceProfileModel {
 	
 	public void shuffle(){
 		Random rand = new Random();
-		a = rand.nextInt(200);
-		b = rand.nextInt(50)+50;
-		c = rand.nextInt(200);
+		a = rand.nextInt(ExpConstants.PROFILE_MODEL_A);
+		b = rand.nextInt(ExpConstants.PROFILE_MODEL_B_1)+ExpConstants.PROFILE_MODEL_B_2;
+		c = rand.nextInt(ExpConstants.PROFILE_MODEL_C);
 	}
 	
 	public double get(int x){
