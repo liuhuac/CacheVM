@@ -63,7 +63,8 @@ public class Solver {
 				// 2n_{t}c_{k}-n_{t}^2 \leq \sum_{i=1}^{n_t}\sum_{j=1}^{n_t}y_{ijk}
 				solver.strAddConstraint(coeff, LpSolve.GE, lower);
 System.out.println();
-System.out.println(coeff);				
+System.out.println(coeff);	
+System.out.println();
 			//********end*********//
 			} 
 			
