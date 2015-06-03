@@ -136,6 +136,7 @@ public class CacheMatrix {
 				
 				if(i == j){
 					PAIN_MATRIX.get(i).add((double) 0);
+					continue;
 				}
 				
 				double pain_i = 0, pain_j = 0;

@@ -19,8 +19,8 @@ import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantDL380G5Xe
  */
 public class ExpConstants {
 	
-	public final static int NUMBER_OF_VMS = 40;
-	public final static int NUMBER_OF_HOSTS = 30;
+	public final static int NUMBER_OF_VMS = 2;
+	public final static int NUMBER_OF_HOSTS = 3;
 
 	/*
 	 * parameters for generating vm stack distance profiles
