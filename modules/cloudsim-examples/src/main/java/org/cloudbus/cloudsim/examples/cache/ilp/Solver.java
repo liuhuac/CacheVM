@@ -41,8 +41,8 @@ public class Solver {
 			//********begin********//
 				coeff = "";
 				for(int k=0; k<ExpConstants.NUMBER_OF_HOSTS; k++){	
-					for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
-						for(int j=0; j<ExpConstants.NUMBER_OF_VMS; j++){
+					for(int j=0; j<ExpConstants.NUMBER_OF_VMS; j++){
+						for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
 							if(k == kk){
 								coeff += "1 ";
 							} else {
@@ -55,40 +55,34 @@ public class Solver {
 				 *  add constraints
 				 */
 				int upper = 2 * ExpConstants.NUMBER_OF_VMS * 4;
-				int lower = upper - ExpConstants.NUMBER_OF_VMS * ExpConstants.NUMBER_OF_VMS;
+				//int lower = upper - ExpConstants.NUMBER_OF_VMS * ExpConstants.NUMBER_OF_VMS;
 				
 				// \sum_{i=1}^{n_t}\sum_{j=1}^{n_t}y_{ijk} \leq 2n_{t}c_{k}
 				solver.strAddConstraint(coeff, LpSolve.LE, upper); 
 				
 				// 2n_{t}c_{k}-n_{t}^2 \leq \sum_{i=1}^{n_t}\sum_{j=1}^{n_t}y_{ijk}
-				solver.strAddConstraint(coeff, LpSolve.GE, lower);
-System.out.println();
-System.out.println(coeff);	
-System.out.println();
+				//solver.strAddConstraint(coeff, LpSolve.GE, 0);
+//System.out.println();
+System.out.print(coeff);	
+System.out.println("<="+upper);
+//System.out.println();
+//System.out.println();
 			//********end*********//
 			} 
 			
 							
-			
-			int index = 0;
-			int flag;
-			int ij = ExpConstants.NUMBER_OF_VMS * ExpConstants.NUMBER_OF_VMS;
-			for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){	
-				for(int j=0; j<ExpConstants.NUMBER_OF_VMS; j++){
+			for(int ii=0; ii<ExpConstants.NUMBER_OF_VMS; ii++){	
+				for(int jj=0; jj<ExpConstants.NUMBER_OF_VMS; jj++){
 				//********begin********//
 					coeff = "";
-					index = 0;
-					flag = i + j * ExpConstants.NUMBER_OF_VMS;
-					ij = ExpConstants.NUMBER_OF_VMS * ExpConstants.NUMBER_OF_VMS;
-					for(int ii=0; ii<ExpConstants.NUMBER_OF_VMS; ii++){
-						for(int jj=0; jj<ExpConstants.NUMBER_OF_VMS; jj++){
-							for(int k=0; k<ExpConstants.NUMBER_OF_HOSTS; k++){										
-								if(index%ij == flag){
+					for(int k=0; k<ExpConstants.NUMBER_OF_HOSTS; k++){	
+						for(int j=0; j<ExpConstants.NUMBER_OF_VMS; j++){
+							for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
+								if(i==ii && j==jj){
 									coeff += "1 ";
 								} else {
 									coeff += "0 ";
 								}
-								index++;
 							}
 						}
 					}
@@ -101,8 +95,11 @@ System.out.println();
 					
 					// 1 \leq \sum_{k=1}^{n_p}y_{ijk}
 					solver.strAddConstraint(coeff, LpSolve.GE, 1);
+//System.out.println();
+System.out.print("1<= ");
+System.out.print(coeff);				
+System.out.print("<=2");
 System.out.println();
-System.out.println(coeff);				
 				//********end*********//
 				}
 			}
@@ -113,16 +110,17 @@ System.out.println(coeff);
 			 */
 			coeff = "";
 			for(int k=0; k<ExpConstants.NUMBER_OF_HOSTS; k++){
-				for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){	
-					for(int j=0; j<ExpConstants.NUMBER_OF_VMS; j++){			
+				for(int j=0; j<ExpConstants.NUMBER_OF_VMS; j++){	
+					for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){			
 						coeff += String.valueOf(CacheMatrix.get_pain(i, j)) + " ";
 					}
 				}
 			}
-System.out.println();
-System.out.println(coeff);
-			solver.strSetObjFn(coeff);
 
+System.out.println(coeff);
+System.out.println();
+			solver.strSetObjFn(coeff);
+solver.setMinim();
 
 			// solve the problem
 			solver.solve();
