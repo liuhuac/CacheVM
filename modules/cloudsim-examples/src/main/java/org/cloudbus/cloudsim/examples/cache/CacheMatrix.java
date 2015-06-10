@@ -1,7 +1,10 @@
 package org.cloudbus.cloudsim.examples.cache;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Vm;
@@ -44,7 +47,7 @@ public class CacheMatrix {
 		PROFILE_MATRIX = new ArrayList<List<Integer>>();
 		
 		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
-			PROFILE_MATRIX.add(random_profile());
+			PROFILE_MATRIX.add(read_profile());
 		}
 		
 		init_pain_matrix();
@@ -190,8 +193,22 @@ public class CacheMatrix {
 	}
 
 	private List<Integer> read_profile() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Integer> profile = new ArrayList<Integer>();
+		File file = new File("C:\\Users\\splatt\\Documents\\Workspace\\SophomoreSummer\\isS1.txt");
+		Scanner scan;
+		try {
+			scan = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			scan = null;
+			e.printStackTrace();
+		}					//fix the folder path
+		for(int i = 0; i <= A; i++) {
+			String str = scan.nextLine();
+			str = str.substring(str.indexOf(":")+2);
+			profile.add(Integer.parseInt(str));
+		}
+		scan.close();
+		return profile;
 	}
 	
 	public void save_random_profile(String filename){
