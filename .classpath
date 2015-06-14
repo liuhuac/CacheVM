@@ -4,9 +4,9 @@
 	<classpathentry kind="src" path="modules/cloudsim/src/main/java"/>
 	<classpathentry kind="src" path="modules/cloudsim/src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/splatt/git/CacheVM/lib/commons-math3-3.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/splatt/git/CacheVM/lib/commons-math3-3.5-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/splatt/git/CacheVM/lib/lpsolve55j.jar" sourcepath="C:/Users/RiggsLab/Downloads/lp_solve_5.5_java/src/java">
+	<classpathentry kind="lib" path="G:/workspace/cloudsim-cache/lib/commons-math3-3.5.jar"/>
+	<classpathentry kind="lib" path="G:/workspace/cloudsim-cache/lib/commons-math3-3.5-javadoc.jar"/>
+	<classpathentry kind="lib" path="G:/workspace/cloudsim-cache/lib/lpsolve55j.jar" sourcepath="C:/Users/RiggsLab/Downloads/lp_solve_5.5_java/src/java">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="cloudsim-cache/lib/lp_solve_5.5.2.0_dev_win64"/>
 		</attributes>
