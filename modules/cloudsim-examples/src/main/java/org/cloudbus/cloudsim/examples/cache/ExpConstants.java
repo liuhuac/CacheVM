@@ -19,8 +19,14 @@ import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantDL380G5Xe
  */
 public class ExpConstants {
 	
-	public final static int NUMBER_OF_VMS = 40;
-	public final static int NUMBER_OF_HOSTS = 30;
+	public final static int NUMBER_OF_VMS = 4000;
+	public final static int NUMBER_OF_HOSTS = 3000;
+	
+	// stack distance profile trace folder
+	public final static String TRACE_FOLDER = "trace";
+	
+	// 0 for random profile; 1 for trace
+	public final static int PROFILE_TYPE = 1;
 
 	/*
 	 * parameters for generating vm stack distance profiles

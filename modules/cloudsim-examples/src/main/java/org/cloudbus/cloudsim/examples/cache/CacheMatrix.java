@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.cloudbus.cloudsim.Host;
@@ -42,12 +43,18 @@ public class CacheMatrix {
 	public static List<Double> HOST_PAIN_LIST = null;// host total pain of current vms
 	public static List<Double> HOST_MISSRATE_LIST = null;// host total pain of current vms
 	
+	@SuppressWarnings("unused")
 	public void init(){
 		
 		PROFILE_MATRIX = new ArrayList<List<Integer>>();
 		
 		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
-			PROFILE_MATRIX.add(read_profile());
+			if(1==ExpConstants.PROFILE_TYPE) {
+				PROFILE_MATRIX.add(random_read_from_folder(ExpConstants.TRACE_FOLDER));
+			} else if(0==ExpConstants.PROFILE_TYPE){
+				PROFILE_MATRIX.add(random_profile());
+			}
+			
 		}
 		
 		init_pain_matrix();
@@ -177,6 +184,7 @@ public class CacheMatrix {
 		
 	}
 
+	@SuppressWarnings("unused")
 	private List<Integer> random_profile() {
 		// TODO Auto-generated method stub
 		List<Integer> profile = new ArrayList<Integer>();
@@ -192,9 +200,44 @@ public class CacheMatrix {
 		return profile;
 	}
 
-	private List<Integer> read_profile() {
+	@SuppressWarnings("unused")
+	private List<Integer> random_read_from_folder(String folderName) {
+		File dir = new File(folderName);
+		String[] fileNames = dir.list();
+		Random rd = new Random();
+		String fileName = folderName + "\\" + fileNames[rd.nextInt(fileNames.length)];
+		
+		int scale = 100000;
+
 		List<Integer> profile = new ArrayList<Integer>();
-		File file = new File("C:\\Users\\splatt\\Documents\\Workspace\\SophomoreSummer\\isS1.txt");
+		File file = new File(fileName);
+		Scanner scan;
+		try {
+			scan = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			scan = null;
+			e.printStackTrace();
+		}					//fix the folder path
+		for(int i = 0; i < A; i++) {
+			String str = scan.nextLine();
+			str = str.substring(str.indexOf(":")+2);
+			profile.add(Integer.parseInt(str)/scale);
+		}
+		int sum = 0;
+		while(scan.hasNext()){
+			String str = scan.nextLine();
+			str = str.substring(str.indexOf(":")+2);
+			sum += Integer.parseInt(str)/scale;
+		}
+		profile.add(sum);
+		scan.close();
+		return profile;
+	}
+	
+	@SuppressWarnings("unused")
+	private List<Integer> read_profile(String fileName) {
+		List<Integer> profile = new ArrayList<Integer>();
+		File file = new File(fileName);
 		Scanner scan;
 		try {
 			scan = new Scanner(file);
