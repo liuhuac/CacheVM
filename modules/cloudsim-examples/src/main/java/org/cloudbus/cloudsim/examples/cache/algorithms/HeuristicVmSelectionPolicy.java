@@ -28,23 +28,20 @@ public class HeuristicVmSelectionPolicy extends PowerVmSelectionPolicy{
 		}
 		
 		double maxPain = 0.0;
-		int max_i = 0;
-		int max_j = 0;
-		for(Vm vm_i : migratableVms){
-			for(Vm vm_j : migratableVms){
-				int i = vm_i.getId();
-				int j = vm_j.getId();
-				if(vm_i.getPainWithVm(j) > maxPain){
-					maxPain = vm_i.getPainWithVm(j);
-					max_i = i;
-					max_j = j;
+		CacheVm vm_i = null;
+		CacheVm vm_j = null;
+		for(Vm i : migratableVms){
+			for(Vm j : migratableVms){
+				if(i.getPainWithVm(j.getId()) > maxPain){
+					maxPain = i.getPainWithVm(j.getId());
+					vm_i = (CacheVm) i;
+					vm_j = (CacheVm) j;
 				}
 			}
 		}
 
-		CacheVm vm_i =  (CacheVm)migratableVms.get(max_i);
-		CacheVm vm_j =  (CacheVm)migratableVms.get(max_j);
 		// vm with higher hits are more sensitive to cache contention
+		if(null==vm_i||null==vm_j) return null;
 		CacheVm return_vm = vm_i.getH() > vm_j.getH() ? vm_i : vm_j;
 		
 		/*

@@ -1,5 +1,6 @@
 package org.cloudbus.cloudsim.examples.cache.algorithms;
 
+import org.cloudbus.cloudsim.examples.cache.ExpConstants;
 import org.cloudbus.cloudsim.examples.cache.ExpRunner;
 
 
@@ -17,7 +18,7 @@ public class OptimalAlgorithm {
 		String workload = "random"; // Random workload
 		String vmAllocationPolicy = "optimal"; // 
 		String vmSelectionPolicy = "optimal";
-		String parameter = "1";
+		String parameter = ExpConstants.THRESHOLD;
 
 		new ExpRunner(
 				enableOutput,
