@@ -19,8 +19,8 @@ import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantDL380G5Xe
  */
 public class ExpConstants {
 	
-	public final static int NUMBER_OF_VMS = 4000;
-	public final static int NUMBER_OF_HOSTS = 2000;
+	public final static int NUMBER_OF_VMS = 40;
+	public final static int NUMBER_OF_HOSTS = 30;
 	
 	// stack distance profile trace folder
 	public final static String TRACE_FOLDER = "trace";
@@ -35,8 +35,8 @@ public class ExpConstants {
 	 * used in StackDistanceProfileModel.java
 	 * y = a*e^(-(1/b)*x+(c/200))
 	 */
-	public final static int PROFILE_MODEL_A = 100; // a = [0,A]
-	public final static int PROFILE_MODEL_B_1 = 20; // [0,B1] 
+	public final static int PROFILE_MODEL_A = 200; // a = [0,A]
+	public final static int PROFILE_MODEL_B_1 = 20; // [0,B1]
 	public final static int PROFILE_MODEL_B_2 = 30; // b = B2 + [0,B1]
 	public final static int PROFILE_MODEL_C = 200; // c = [0,C]
 	// end of profile parameters

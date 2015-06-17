@@ -112,7 +112,7 @@ public class OptimalVmAllocationPolicy extends PowerVmAllocationPolicyMigrationS
 				ExecutionTimeMeasurer.end("optimizeAllocationVmReallocation"));
 		Log.printLine();
 
-		migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
+		//migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
 
 		restoreAllocation();
 

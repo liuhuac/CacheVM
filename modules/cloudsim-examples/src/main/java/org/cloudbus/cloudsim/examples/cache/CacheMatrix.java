@@ -12,7 +12,7 @@ import org.cloudbus.cloudsim.Vm;
 
 public class CacheMatrix {
 	
-	public static int A = 100;
+	public static int A = 128;
 	
 	enum Animal {
 		TURTLE,
@@ -53,6 +53,8 @@ public class CacheMatrix {
 				PROFILE_MATRIX.add(random_read_from_folder(ExpConstants.TRACE_FOLDER));
 			} else if(0==ExpConstants.PROFILE_TYPE){
 				PROFILE_MATRIX.add(random_profile());
+				/*System.out.println(PROFILE_MATRIX.get(0).toString());
+				System.exit(0);*/
 			}
 			
 		}
