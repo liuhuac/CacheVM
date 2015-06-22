@@ -29,12 +29,15 @@ public class Simulation {
 		PrintVm2PmMapping.print();
 		
 		HeuristicAlgorithm.main(args);
+		PrintVm2PmMapping.print();
 		
 		//OptimalAlgorithm.main(args);
 		
 		ClassificationAlgorithm.main(args);
+		PrintVm2PmMapping.print();
 		
 		MissrateAlgorithm.main(args);
+		PrintVm2PmMapping.print();
 
 	}
 

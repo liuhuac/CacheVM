@@ -14,7 +14,6 @@ public class PrintVm2PmMapping {
 	@SuppressWarnings("unused")
 	public static void print() throws Exception {
 		// TODO Auto-generated method stub
-		ExpConstants.CURRENT_EXP_NAME = "random_heuristic_heuristic_0.2";
 		String fileName = "results/log/"+ExpConstants.CURRENT_EXP_NAME + ".txt";
 		String ofileName = "results/mapping_"+ExpConstants.CURRENT_EXP_NAME + ".txt";
 		
