@@ -23,6 +23,8 @@ public class CacheMatrix {
 
 	public static List<Animal> VM_TYPE_LIST = null;
 	
+	public static List<String> VM_NAME_LIST = null;
+	
 	/*
 	 *  Each row of PROFILE_MATRIX is a stack distance profile
 	 *  n_t (rows) x A (cols)  
@@ -47,9 +49,10 @@ public class CacheMatrix {
 	public void init(){
 		
 		PROFILE_MATRIX = new ArrayList<List<Integer>>();
+		VM_NAME_LIST = new ArrayList<String>();
 		
 		for(int i=0; i<ExpConstants.NUMBER_OF_VMS; i++){
-			if(1==ExpConstants.PROFILE_TYPE) {
+			if(1==ExpConstants.PROFILE_TYPE) {				
 				PROFILE_MATRIX.add(random_read_from_folder(ExpConstants.TRACE_FOLDER));
 			} else if(0==ExpConstants.PROFILE_TYPE){
 				PROFILE_MATRIX.add(random_profile());
@@ -207,7 +210,10 @@ public class CacheMatrix {
 		File dir = new File(folderName);
 		String[] fileNames = dir.list();
 		Random rd = new Random();
-		String fileName = folderName + "\\" + fileNames[rd.nextInt(fileNames.length)];
+		String rFileName = fileNames[rd.nextInt(fileNames.length)];
+		String fileName = folderName + "\\" + rFileName;
+		
+		VM_NAME_LIST.add(rFileName);
 		
 		int scale = 100000;
 

@@ -26,7 +26,7 @@ public class ExpConstants {
 	public final static String TRACE_FOLDER = "trace";
 	
 	// 0 for random profile; 1 for trace
-	public final static int PROFILE_TYPE = 0;
+	public final static int PROFILE_TYPE = 1;
 	
 	public final static String THRESHOLD = "0.2";
 
@@ -53,6 +53,8 @@ public class ExpConstants {
 	public final static int CLOUDLET_LENGTH	= 2500 * (int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
 
+	public static String CURRENT_EXP_NAME; // variable for storing exp name, used by PrintVm2PmMapping
+	
 	/*
 	 * VM instance types:
 	 *   High-Memory Extra Large Instance: 3.25 EC2 Compute Units, 8.55 GB // too much MIPS

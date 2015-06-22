@@ -10,8 +10,9 @@ public class Simulation {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
 		/*
@@ -25,9 +26,14 @@ public class Simulation {
 		cm.init();
 		
 		RandomAlgorithm.main(args);
+		PrintVm2PmMapping.print();
+		
 		HeuristicAlgorithm.main(args);
+		
 		//OptimalAlgorithm.main(args);
+		
 		ClassificationAlgorithm.main(args);
+		
 		MissrateAlgorithm.main(args);
 
 	}

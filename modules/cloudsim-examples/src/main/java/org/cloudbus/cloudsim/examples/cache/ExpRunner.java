@@ -164,7 +164,7 @@ public class ExpRunner extends RunnerAbstract {
 	 */
 	protected void start(String experimentName, String outputFolder, VmAllocationPolicy vmAllocationPolicy) {
 		System.out.println("Starting " + experimentName);
-
+		ExpConstants.CURRENT_EXP_NAME = experimentName;
 		try {
 			PowerDatacenter datacenter = (PowerDatacenter) ExpHelper.createDatacenter(
 					"Datacenter",
